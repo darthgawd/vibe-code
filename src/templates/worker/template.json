@@ -1,0 +1,21 @@
+{
+  "name": "Background Worker",
+  "description": "BullMQ background job worker with TypeScript and security best practices",
+  "version": "1.0.0",
+  "defaultMode": "guided",
+  "dependencies": {
+    "bullmq": "^5.8.0",
+    "ioredis": "^5.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  }
+}
