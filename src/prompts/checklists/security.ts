@@ -147,6 +147,102 @@ Check code against current OWASP Top 10:
 `;
 
 /**
+ * Frontend-specific security checklist
+ */
+export const FRONTEND_SECURITY_CHECKLIST = `## 🖥️ Frontend Security Checklist
+
+For any frontend/client-side code:
+
+### XSS Prevention
+- [ ] No \`innerHTML\` with user-controlled data
+- [ ] No \`dangerouslySetInnerHTML\` without sanitization
+- [ ] No \`document.write()\` with dynamic content
+- [ ] No \`eval()\`, \`Function()\`, or \`setTimeout/setInterval\` with strings
+- [ ] User input escaped before rendering
+- [ ] DOMPurify or similar used for HTML sanitization
+- [ ] Template literals not used to build HTML
+
+### Content Security Policy (CSP)
+- [ ] CSP header configured and enforced
+- [ ] No \`unsafe-inline\` for scripts (use nonces/hashes)
+- [ ] No \`unsafe-eval\` allowed
+- [ ] Script sources explicitly allowlisted
+- [ ] Report-uri configured for violations
+- [ ] Frame-ancestors restricts embedding
+
+### Secure Communication
+- [ ] All requests over HTTPS
+- [ ] No mixed content (HTTP resources on HTTPS page)
+- [ ] HSTS header enabled
+- [ ] Secure WebSocket (wss://) used
+- [ ] Certificate pinning for mobile apps
+
+### Authentication & Session
+- [ ] Tokens stored in httpOnly cookies (not localStorage for sensitive tokens)
+- [ ] Session tokens not exposed in URLs
+- [ ] Logout clears all client-side auth state
+- [ ] Auto-logout on inactivity for sensitive apps
+- [ ] CSRF tokens used for state-changing requests
+- [ ] SameSite cookie attribute set appropriately
+
+### Sensitive Data Handling
+- [ ] No secrets/API keys in client-side code
+- [ ] No sensitive data in localStorage/sessionStorage
+- [ ] Sensitive form fields use \`autocomplete="off"\` where appropriate
+- [ ] Password fields use \`type="password"\`
+- [ ] Sensitive data cleared from memory when no longer needed
+- [ ] No sensitive data in URL parameters
+
+### Input Validation
+- [ ] Client-side validation (for UX, not security)
+- [ ] Server-side validation (actual security)
+- [ ] File upload type/size validated
+- [ ] Rich text editors configured with safe defaults
+- [ ] URL inputs validated before use in links/redirects
+
+### Third-Party Dependencies
+- [ ] Dependencies from trusted sources (npm, CDN with SRI)
+- [ ] Subresource Integrity (SRI) for external scripts/styles
+- [ ] No inline event handlers (\`onclick\`, etc.) in HTML
+- [ ] Third-party scripts sandboxed where possible
+- [ ] Dependency vulnerabilities checked (\`npm audit\`)
+
+### Clickjacking Protection
+- [ ] X-Frame-Options header set
+- [ ] frame-ancestors CSP directive configured
+- [ ] Sensitive actions require re-authentication
+- [ ] UI elements not easily overlayable
+
+### Open Redirect Prevention
+- [ ] Redirect URLs validated against allowlist
+- [ ] No user-controlled redirect destinations
+- [ ] Relative URLs preferred for internal redirects
+- [ ] Warning shown before external redirects
+
+### DOM Security
+- [ ] No \`location.href\` assignment with user input
+- [ ] No \`window.open()\` with user-controlled URLs
+- [ ] postMessage origin validated
+- [ ] postMessage data validated
+- [ ] Blob URLs properly revoked after use
+
+### React/Framework Specific
+- [ ] No \`dangerouslySetInnerHTML\` without sanitization
+- [ ] Prop types/TypeScript for component inputs
+- [ ] Keys not using array index for dynamic lists (where order changes)
+- [ ] No sensitive data in React state exposed to dev tools
+- [ ] Error boundaries don't leak sensitive info
+- [ ] Server components don't expose secrets to client
+
+### Mobile Web / PWA
+- [ ] Service worker scope minimized
+- [ ] Cache doesn't store sensitive data
+- [ ] Credential storage uses platform secure storage
+- [ ] Deep links validated
+- [ ] Biometric auth properly implemented
+`;
+
+/**
  * API-specific security checklist
  */
 export const API_SECURITY_CHECKLIST = `## 🌐 API Security Checklist
@@ -192,13 +288,15 @@ export const FULL_SECURITY_CHECKLIST = `${PRE_RESPONSE_CHECKLIST}
 ${POST_IMPLEMENTATION_CHECKLIST}
 
 ${OWASP_CHECKLIST}
+
+${FRONTEND_SECURITY_CHECKLIST}
 `;
 
 /**
  * Get a specific checklist by name
  */
 export function getSecurityChecklist(
-  type: "pre" | "post" | "owasp" | "api" | "full"
+  type: "pre" | "post" | "owasp" | "api" | "frontend" | "full"
 ): string {
   switch (type) {
     case "pre":
@@ -209,6 +307,8 @@ export function getSecurityChecklist(
       return OWASP_CHECKLIST;
     case "api":
       return API_SECURITY_CHECKLIST;
+    case "frontend":
+      return FRONTEND_SECURITY_CHECKLIST;
     case "full":
       return FULL_SECURITY_CHECKLIST;
   }
@@ -226,6 +326,7 @@ export const SECURITY_CHECKLIST_META = {
     { id: "post", name: "Post-Implementation", items: 15 },
     { id: "owasp", name: "OWASP Top 10", items: 40 },
     { id: "api", name: "API Security", items: 20 },
-    { id: "full", name: "Full (Combined)", items: 72 },
+    { id: "frontend", name: "Frontend Security", items: 52 },
+    { id: "full", name: "Full (Combined)", items: 124 },
   ],
 } as const;

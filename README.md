@@ -47,8 +47,35 @@ vibe mode guided
 | `vibe start` | Launch Claude Code with configuration |
 | `vibe mode [mode]` | View or change current mode |
 | `vibe config` | View or modify configuration |
+| `vibe setup` | Interactive setup wizard for Claude Code |
+| `vibe doctor` | Diagnose and fix issues with setup |
 | `vibe audit [path]` | Security audit existing code |
 | `vibe template <name>` | Scaffold from secure template |
+
+## Getting Started
+
+### First Time Setup
+
+If you don't have Claude Code installed, run the setup wizard:
+
+```bash
+vibe setup
+```
+
+This will:
+1. Check if Claude Code is installed
+2. Guide you through installation (npm or Homebrew)
+3. Help you authenticate with Anthropic
+4. Verify everything is working
+
+### Troubleshooting
+
+If you encounter issues, run the doctor command:
+
+```bash
+vibe doctor        # View diagnostics
+vibe doctor --fix  # Attempt automatic fixes
+```
 
 ## How It Works
 

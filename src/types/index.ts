@@ -21,13 +21,14 @@ export const ModeSchema = z.enum(["learning", "guided", "expert"]);
 /**
  * Available security checklists
  */
-export type ChecklistType = "pre" | "post" | "owasp" | "api" | "full" | "none";
+export type ChecklistType = "pre" | "post" | "owasp" | "api" | "frontend" | "full" | "none";
 
 export const ChecklistTypeSchema = z.enum([
   "pre",
   "post",
   "owasp",
   "api",
+  "frontend",
   "full",
   "none",
 ]);

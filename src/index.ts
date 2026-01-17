@@ -25,6 +25,8 @@ import {
   type ConfigOptions,
 } from "./commands/config.js";
 import { templateCommand, type TemplateOptions } from "./commands/template.js";
+import { doctorCommand, type DoctorOptions } from "./commands/doctor.js";
+import { setupCommand, type SetupOptions } from "./commands/setup.js";
 
 // Version from package.json - loaded at build time
 const VERSION = "0.1.0";
@@ -167,6 +169,32 @@ function createProgram(): Command {
     .action(async (key: string, value: string, opts: { global?: boolean }) => {
       const options: ConfigOptions = { global: opts.global };
       await configSetCommand(key, value, options);
+    });
+
+  // Doctor command - diagnose and fix issues
+  program
+    .command("doctor")
+    .description("Diagnose and fix issues with Claude Code setup")
+    .option("--fix", "Attempt to fix issues automatically")
+    .option("--json", "Output results as JSON")
+    .action(async (opts: { fix?: boolean; json?: boolean }) => {
+      const options: DoctorOptions = {
+        fix: opts.fix,
+        json: opts.json,
+      };
+      await doctorCommand(options);
+    });
+
+  // Setup command - interactive setup wizard
+  program
+    .command("setup")
+    .description("Interactive setup wizard for Claude Code")
+    .option("--check", "Only check installation status")
+    .action(async (opts: { check?: boolean }) => {
+      const options: SetupOptions = {
+        check: opts.check,
+      };
+      await setupCommand(options);
     });
 
   // Placeholder commands - will be implemented in subsequent bricks
